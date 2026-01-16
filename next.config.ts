@@ -2,9 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
-  // If deploying to a subpath like username.github.io/neurostream-reader
-  // uncomment and set basePath:
-  // basePath: '/neurostream-reader',
+  // Deploying to stevemilton.github.io/spreed
+  basePath: '/spreed',
   images: {
     unoptimized: true,
   },
