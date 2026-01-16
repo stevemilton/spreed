@@ -40,7 +40,6 @@ export function Reader(): React.ReactNode {
             {/* Header */}
             <header className={styles.header}>
                 <h1 className={styles.title}>Spreed</h1>
-                <ThemeToggle />
             </header>
 
             {/* Text Input - Collapsible when session active */}
@@ -72,12 +71,15 @@ export function Reader(): React.ReactNode {
                 </section>
             )}
 
-            {/* Keyboard Hints */}
-            <footer className={styles.hints}>
-                <span><kbd>Space</kbd> Play/Pause</span>
-                <span><kbd>←</kbd><kbd>→</kbd> ±50 WPM</span>
-                <span><kbd>R</kbd> Reset</span>
-                <span><kbd>Hold Space</kbd> Context</span>
+            {/* Keyboard Hints + Theme Toggle */}
+            <footer className={styles.footer}>
+                <div className={styles.hints}>
+                    <span><kbd>Space</kbd> Play/Pause</span>
+                    <span><kbd>←</kbd><kbd>→</kbd> ±50 WPM</span>
+                    <span><kbd>R</kbd> Reset</span>
+                    <span><kbd>Hold Space</kbd> Context</span>
+                </div>
+                <ThemeToggle />
             </footer>
 
             {/* Context Overlay */}
