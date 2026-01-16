@@ -16,7 +16,7 @@ export interface ComprehensionQuizProps {
 }
 
 export function ComprehensionQuiz({ text, onClose }: ComprehensionQuizProps): React.ReactNode {
-    const { questions, isLoading, error, generateQuestions, apiKey, setApiKey } = useGemini();
+    const { questions, isLoading, error, generateQuestions, apiKey, setApiKey, clearApiKey } = useGemini();
     const [showAnswers, setShowAnswers] = useState<Record<number, boolean>>({});
     const [apiKeyInput, setApiKeyInput] = useState('');
 
@@ -127,6 +127,13 @@ export function ComprehensionQuiz({ text, onClose }: ComprehensionQuizProps): Re
                     </button>
                 </div>
             )}
+
+            {/* Footer with change key option */}
+            <div className={styles.quizFooter}>
+                <button className={styles.changeKeyButton} onClick={clearApiKey}>
+                    🔑 Change API Key
+                </button>
+            </div>
         </div>
     );
 }
