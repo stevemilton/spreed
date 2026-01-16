@@ -1,0 +1,28 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ThemeToggle Component Styles
+   ═══════════════════════════════════════════════════════════════════ */
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.button:hover {
+    background: var(--color-surface-elevated);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.button:active {
+    transform: scale(0.95);
+}
