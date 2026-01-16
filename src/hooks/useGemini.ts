@@ -24,7 +24,7 @@ export interface UseGeminiState {
     clearApiKey: () => void;
 }
 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 const PROMPT = `You are a reading comprehension assistant. Based on the following text, generate exactly 3 simple comprehension questions to test if someone understood the main points.
 
