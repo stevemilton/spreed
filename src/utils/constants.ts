@@ -51,6 +51,7 @@ export const STORAGE_KEYS = {
     THEME: 'spreed-theme',
     SESSION: 'spreed-session',
     BOOKMARKS: 'spreed-bookmarks',
+    GEMINI_API_KEY: 'spreed-gemini-key',
 } as const;
 
 // ═══════════════════════════════════════════════════════════════════

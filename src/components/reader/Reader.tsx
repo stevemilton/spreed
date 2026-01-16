@@ -2,11 +2,12 @@
  * Spreed - Main Reader Container
  *
  * Composes all reader-related components with keyboard shortcuts,
- * focus mode, and visibility pause.
+ * focus mode, visibility pause, and comprehension quiz.
  */
 
 'use client';
 
+import { useState } from 'react';
 import { useReader } from '@/context/ReaderContext';
 import {
     useKeyboardShortcuts,
@@ -27,6 +28,7 @@ import { ThemeToggle } from '@/components/settings/ThemeToggle';
 import { FontSelector } from '@/components/settings/FontSelector';
 import { ColorPicker } from '@/components/settings/ColorPicker';
 import { ReadingStats } from '@/components/stats/ReadingStats';
+import { ComprehensionQuiz } from '@/components/quiz/ComprehensionQuiz';
 import styles from './Reader.module.css';
 
 /**
@@ -36,6 +38,7 @@ export function Reader(): React.ReactNode {
     const { session, currentToken } = useReader();
     const scrubber = useContextScrubber();
     const focusMode = useFocusMode();
+    const [showQuiz, setShowQuiz] = useState(false);
 
     // Enable keyboard shortcuts with scrubber and focus mode integration
     useKeyboardShortcuts({
@@ -49,6 +52,7 @@ export function Reader(): React.ReactNode {
     useVisibilityPause();
 
     const hasSession = session !== null;
+    const isComplete = session?.status === 'COMPLETE';
 
     return (
         <div className={`${styles.container} ${focusMode.isActive ? styles.focusMode : ''}`}>
@@ -78,6 +82,14 @@ export function Reader(): React.ReactNode {
                 <div className={styles.mainControls}>
                     <PlaybackControls />
                     <FocusModeButton />
+                    {isComplete && !showQuiz && (
+                        <button
+                            className={styles.quizButton}
+                            onClick={() => setShowQuiz(true)}
+                        >
+                            📝 Quiz
+                        </button>
+                    )}
                 </div>
 
                 {!focusMode.isActive && (
@@ -88,8 +100,18 @@ export function Reader(): React.ReactNode {
                 )}
             </section>
 
+            {/* Comprehension Quiz */}
+            {showQuiz && session && (
+                <section className={styles.quizSection}>
+                    <ComprehensionQuiz
+                        text={session.sourceText}
+                        onClose={() => setShowQuiz(false)}
+                    />
+                </section>
+            )}
+
             {/* Settings - Only show when not in focus mode */}
-            {hasSession && !focusMode.isActive && (
+            {hasSession && !focusMode.isActive && !showQuiz && (
                 <section className={styles.settingsSection}>
                     <FontSelector />
                     <ColorPicker />
@@ -98,7 +120,7 @@ export function Reader(): React.ReactNode {
             )}
 
             {/* Text Input - Compact when session active */}
-            {hasSession && !focusMode.isActive && (
+            {hasSession && !focusMode.isActive && !showQuiz && (
                 <section className={styles.compactInputSection}>
                     <TextInput />
                 </section>

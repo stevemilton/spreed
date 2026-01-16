@@ -8,3 +8,4 @@ export { useTheme } from './useTheme';
 export { useVisibilityPause } from './useVisibilityPause';
 export { useFocusMode } from './useFocusMode';
 export { useBookmarks, type Bookmark } from './useBookmarks';
+export { useGemini, type ComprehensionQuestion } from './useGemini';
