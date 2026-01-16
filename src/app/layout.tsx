@@ -10,9 +10,9 @@ import { ReaderProvider } from '@/context/ReaderContext';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'NeuroStream Reader - Speed Reading with RSVP',
+  title: 'Spreed - Speed Reading with RSVP',
   description: 'A web-based RSVP (Rapid Serial Visual Presentation) speed reading application. Read faster without sacrificing comprehension.',
-  keywords: ['speed reading', 'RSVP', 'rapid serial visual presentation', 'reading'],
+  keywords: ['speed reading', 'RSVP', 'rapid serial visual presentation', 'reading', 'spreed'],
 };
 
 export default function RootLayout({

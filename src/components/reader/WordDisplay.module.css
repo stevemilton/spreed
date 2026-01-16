@@ -75,3 +75,21 @@
         opacity: 1;
     }
 }
+
+/* Responsive font sizes for mobile */
+@media (max-width: 600px) {
+    .word {
+        font-size: 28px;
+    }
+
+    .placeholder {
+        font-size: var(--font-size-md);
+        padding: 0 var(--spacing-md);
+    }
+}
+
+@media (max-width: 400px) {
+    .word {
+        font-size: 22px;
+    }
+}

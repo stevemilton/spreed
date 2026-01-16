@@ -39,7 +39,7 @@ export function Reader(): React.ReactNode {
         <div className={styles.container}>
             {/* Header */}
             <header className={styles.header}>
-                <h1 className={styles.title}>NeuroStream Reader</h1>
+                <h1 className={styles.title}>Spreed</h1>
                 <ThemeToggle />
             </header>
 
