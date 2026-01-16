@@ -43,6 +43,13 @@ export function Reader(): React.ReactNode {
                 <ThemeToggle />
             </header>
 
+            {/* Text Input - Collapsible when session active */}
+            {!hasSession && (
+                <section className={styles.inputSection}>
+                    <TextInput />
+                </section>
+            )}
+
             {/* Word Display */}
             <section className={styles.displaySection}>
                 <WordDisplay token={currentToken} isEmpty={!hasSession} />
@@ -58,10 +65,12 @@ export function Reader(): React.ReactNode {
                 </div>
             </section>
 
-            {/* Text Input */}
-            <section className={styles.inputSection}>
-                <TextInput />
-            </section>
+            {/* Text Input - Compact when session active */}
+            {hasSession && (
+                <section className={styles.compactInputSection}>
+                    <TextInput />
+                </section>
+            )}
 
             {/* Keyboard Hints */}
             <footer className={styles.hints}>

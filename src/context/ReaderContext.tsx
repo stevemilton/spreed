@@ -58,6 +58,12 @@ export function ReaderProvider({ children }: ReaderProviderProps): React.ReactNo
 
     const loopRef = useRef<RenderLoopControls | null>(null);
 
+    // Use a ref to always get the current WPM (avoids stale closure)
+    const settingsRef = useRef(settings);
+    useEffect(() => {
+        settingsRef.current = settings;
+    }, [settings]);
+
     // Get current token
     const currentToken = session?.tokens[currentIndex] ?? null;
 
@@ -102,7 +108,7 @@ export function ReaderProvider({ children }: ReaderProviderProps): React.ReactNo
 
     const loadText = useCallback((text: string): void => {
         try {
-            const result: TokenizationResult = tokenizeText(text, settings);
+            const result: TokenizationResult = tokenizeText(text, settingsRef.current);
 
             const newSession: ReadingSession = {
                 sessionId: generateSessionId(),
@@ -124,6 +130,7 @@ export function ReaderProvider({ children }: ReaderProviderProps): React.ReactNo
             setStatus('IDLE');
 
             // Create or update render loop
+            // Use a function reference that reads from ref (always current)
             if (loopRef.current) {
                 loopRef.current.updateTokens(result.tokens, result.tokenizationWPM);
             } else {
@@ -133,7 +140,7 @@ export function ReaderProvider({ children }: ReaderProviderProps): React.ReactNo
                     currentIndex: 0,
                     onTokenChange: handleTokenChange,
                     onComplete: handleComplete,
-                    getCurrentWPM: () => settings.baseWPM,
+                    getCurrentWPM: () => settingsRef.current.baseWPM,
                     tokenizationWPM: result.tokenizationWPM,
                 });
             }
@@ -141,7 +148,7 @@ export function ReaderProvider({ children }: ReaderProviderProps): React.ReactNo
             console.error('[Reader] Failed to load text:', error);
             // Could dispatch to error state here
         }
-    }, [settings, handleTokenChange, handleComplete]);
+    }, [handleTokenChange, handleComplete]);
 
     const play = useCallback((): void => {
         if (!session || session.tokens.length === 0) return;
