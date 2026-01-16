@@ -1,5 +1,5 @@
 /**
- * NeuroStream Reader - Root Layout
+ * Spreed - Root Layout
  *
  * Wraps the app with providers for settings and reader state.
  */
@@ -13,6 +13,13 @@ export const metadata: Metadata = {
   title: 'Spreed - Speed Reading with RSVP',
   description: 'A web-based RSVP (Rapid Serial Visual Presentation) speed reading application. Read faster without sacrificing comprehension.',
   keywords: ['speed reading', 'RSVP', 'rapid serial visual presentation', 'reading', 'spreed'],
+  manifest: '/spreed/manifest.json',
+  themeColor: '#2563eb',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Spreed',
+  },
 };
 
 export default function RootLayout({

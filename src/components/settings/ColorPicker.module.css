@@ -1,0 +1,56 @@
+/* Color Picker Styles */
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.label {
+    font-family: var(--font-family-ui);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.presets {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.swatch:hover {
+    transform: scale(1.1);
+}
+
+.swatch.active {
+    border-color: var(--color-text-primary);
+    box-shadow: 0 0 0 2px var(--color-background);
+}
+
+.customInput {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.customInput::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.customInput::-webkit-color-swatch {
+    border: none;
+    border-radius: var(--radius-full);
+}

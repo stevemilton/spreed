@@ -1,22 +1,32 @@
 /**
- * NeuroStream Reader - Main Reader Container
+ * Spreed - Main Reader Container
  *
- * Composes all reader-related components with keyboard shortcuts
- * and context scrubber functionality.
+ * Composes all reader-related components with keyboard shortcuts,
+ * focus mode, and visibility pause.
  */
 
 'use client';
 
 import { useReader } from '@/context/ReaderContext';
-import { useKeyboardShortcuts, useContextScrubber } from '@/hooks';
+import {
+    useKeyboardShortcuts,
+    useContextScrubber,
+    useVisibilityPause,
+    useFocusMode
+} from '@/hooks';
 import { WordDisplay } from './WordDisplay';
 import { ProgressBar } from './ProgressBar';
 import { ContextOverlay } from './ContextOverlay';
 import { PlaybackControls } from '@/components/controls/PlaybackControls';
+import { FocusModeButton } from '@/components/controls/FocusModeButton';
+import { ShareButton } from '@/components/controls/ShareButton';
 import { WPMSlider } from '@/components/controls/WPMSlider';
 import { WPMPresets } from '@/components/controls/WPMPresets';
 import { TextInput } from '@/components/input/TextInput';
 import { ThemeToggle } from '@/components/settings/ThemeToggle';
+import { FontSelector } from '@/components/settings/FontSelector';
+import { ColorPicker } from '@/components/settings/ColorPicker';
+import { ReadingStats } from '@/components/stats/ReadingStats';
 import styles from './Reader.module.css';
 
 /**
@@ -25,25 +35,33 @@ import styles from './Reader.module.css';
 export function Reader(): React.ReactNode {
     const { session, currentToken } = useReader();
     const scrubber = useContextScrubber();
+    const focusMode = useFocusMode();
 
-    // Enable keyboard shortcuts with scrubber integration
+    // Enable keyboard shortcuts with scrubber and focus mode integration
     useKeyboardShortcuts({
         enabled: true,
         onScrubStart: scrubber.startScrubbing,
         onScrubEnd: scrubber.endScrubbing,
+        onFocusToggle: focusMode.toggle,
     });
+
+    // Auto-pause when tab loses focus
+    useVisibilityPause();
 
     const hasSession = session !== null;
 
     return (
-        <div className={styles.container}>
-            {/* Header */}
-            <header className={styles.header}>
-                <h1 className={styles.title}>Spreed</h1>
-            </header>
+        <div className={`${styles.container} ${focusMode.isActive ? styles.focusMode : ''}`}>
+            {/* Header - hidden in focus mode */}
+            {!focusMode.isActive && (
+                <header className={styles.header}>
+                    <h1 className={styles.title}>Spreed</h1>
+                    {hasSession && <ReadingStats />}
+                </header>
+            )}
 
-            {/* Text Input - Collapsible when session active */}
-            {!hasSession && (
+            {/* Text Input - Only show when no session and not in focus mode */}
+            {!hasSession && !focusMode.isActive && (
                 <section className={styles.inputSection}>
                     <TextInput />
                 </section>
@@ -57,30 +75,47 @@ export function Reader(): React.ReactNode {
 
             {/* Controls */}
             <section className={styles.controlsSection}>
-                <PlaybackControls />
-                <div className={styles.wpmControls}>
-                    <WPMPresets />
-                    <WPMSlider />
+                <div className={styles.mainControls}>
+                    <PlaybackControls />
+                    <FocusModeButton />
                 </div>
+
+                {!focusMode.isActive && (
+                    <div className={styles.wpmControls}>
+                        <WPMPresets />
+                        <WPMSlider />
+                    </div>
+                )}
             </section>
 
+            {/* Settings - Only show when not in focus mode */}
+            {hasSession && !focusMode.isActive && (
+                <section className={styles.settingsSection}>
+                    <FontSelector />
+                    <ColorPicker />
+                    <ShareButton />
+                </section>
+            )}
+
             {/* Text Input - Compact when session active */}
-            {hasSession && (
+            {hasSession && !focusMode.isActive && (
                 <section className={styles.compactInputSection}>
                     <TextInput />
                 </section>
             )}
 
-            {/* Keyboard Hints + Theme Toggle */}
-            <footer className={styles.footer}>
-                <div className={styles.hints}>
-                    <span><kbd>Space</kbd> Play/Pause</span>
-                    <span><kbd>←</kbd><kbd>→</kbd> ±50 WPM</span>
-                    <span><kbd>R</kbd> Reset</span>
-                    <span><kbd>Hold Space</kbd> Context</span>
-                </div>
-                <ThemeToggle />
-            </footer>
+            {/* Keyboard Hints + Theme Toggle - hidden in focus mode */}
+            {!focusMode.isActive && (
+                <footer className={styles.footer}>
+                    <div className={styles.hints}>
+                        <span><kbd>Space</kbd> Play/Pause</span>
+                        <span><kbd>←</kbd><kbd>→</kbd> ±50 WPM</span>
+                        <span><kbd>R</kbd> Reset</span>
+                        <span><kbd>F</kbd> Focus</span>
+                    </div>
+                    <ThemeToggle />
+                </footer>
+            )}
 
             {/* Context Overlay */}
             <ContextOverlay

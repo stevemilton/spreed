@@ -47,8 +47,10 @@ export const MS_PER_MINUTE = 60000;
 // ═══════════════════════════════════════════════════════════════════
 
 export const STORAGE_KEYS = {
-    SETTINGS: 'neurostream-settings',
-    THEME: 'neurostream-theme',
+    SETTINGS: 'spreed-settings',
+    THEME: 'spreed-theme',
+    SESSION: 'spreed-session',
+    BOOKMARKS: 'spreed-bookmarks',
 } as const;
 
 // ═══════════════════════════════════════════════════════════════════

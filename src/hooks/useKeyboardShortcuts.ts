@@ -1,11 +1,12 @@
 /**
- * NeuroStream Reader - Keyboard Shortcuts Hook
+ * Spreed - Keyboard Shortcuts Hook
  *
  * Handles global keyboard events for reader controls.
  * - Space: Play/Pause toggle
  * - Left Arrow: Decrease WPM by 50
  * - Right Arrow: Increase WPM by 50
  * - R: Reset to beginning
+ * - F: Toggle focus mode
  */
 
 'use client';
@@ -22,6 +23,8 @@ export interface UseKeyboardShortcutsOptions {
     onScrubStart?: () => void;
     /** Callback when scrubbing ends (Space released) */
     onScrubEnd?: () => void;
+    /** Callback when focus mode is toggled */
+    onFocusToggle?: () => void;
 }
 
 /**
@@ -30,7 +33,7 @@ export interface UseKeyboardShortcutsOptions {
  * @param options - Configuration options
  */
 export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}): void {
-    const { enabled = true, onScrubStart, onScrubEnd } = options;
+    const { enabled = true, onScrubStart, onScrubEnd, onFocusToggle } = options;
 
     const { session, isPlaying, play, pause, reset, seekToSentenceStart } = useReader();
     const { settings, updateSettings } = useSettings();
@@ -84,6 +87,11 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}):
                     reset();
                     break;
 
+                case 'KeyF':
+                    event.preventDefault();
+                    onFocusToggle?.();
+                    break;
+
                 default:
                     break;
             }
@@ -98,6 +106,7 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}):
             settings.baseWPM,
             updateSettings,
             onScrubStart,
+            onFocusToggle,
         ]
     );
 

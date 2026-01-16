@@ -10,12 +10,21 @@
     width: 100%;
     margin: 0 auto;
     padding: var(--spacing-lg);
+    min-height: 100vh;
+}
+
+/* Focus mode: minimal UI, centered content */
+.container.focusMode {
+    justify-content: center;
+    background: var(--color-background);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
 }
 
 .title {
@@ -43,12 +52,28 @@
     gap: var(--spacing-lg);
 }
 
+.mainControls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
 .wpmControls {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-md);
     width: 100%;
+}
+
+.settingsSection {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
 }
 
 .inputSection {
@@ -96,6 +121,11 @@
         padding: var(--spacing-md);
     }
 
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .footer {
         flex-direction: column;
         align-items: center;
@@ -105,5 +135,10 @@
         flex-direction: column;
         align-items: center;
         gap: var(--spacing-sm);
+    }
+
+    .settingsSection {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
